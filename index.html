@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audio Comparison Demo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      padding: 20px;
+    }
+    h1, h2, p {
+      text-align: center;
+    }
+    .audio-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: 20px 0;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #e9ecef;
+    }
+    .audio-item {
+      flex: 0 0 15%;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+    audio {
+      width: 100%;
+      margin-top: 5px;
+    }
+    .pdf-image {
+      width: 100%;
+      margin-top: 5px;
+    }
+    .bold {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>VoiceBridge: Perceptual-Aware Latent Bridge Models for General Speech Restoration</h1>
+
+    <!-- Real DNS Section -->
+    <section>
+      <h2>DNS Real Recordings (Real World Data)</h2>
+      <script>
+        const dnsSamples = [
+          "audioset_realrec_barking_18ndo219WMw",
+          "audioset_realrec_door_1lM-73JZ2G8",
+          "audioset_realrec_munching_IiX6slrtq-I",
+          "audioset_realrec_printer_1wh_xYxrwg8",
+          "audioset_realrec_printer_9ki9_B4o66A",
+          "ms_realrec_headset_ergoe_Printing_s10_T470s",
+          "ms_realrec_headset_Headphone-cafeteria-spk4-2",
+          "ms_realrec_speakerphone_Jamie_Typing_S10_SurfaceBook",
+          "ms_realrec_speakerphone_Puneet_Typing_s10_surface",
+          "ms_realrec_speakerphone_Yaran_munching_-04"
+        ];
+        const dnsMethods = ["input", "vf", "upp", "re", "vb"];
+        const dnsLabels = ["Input", "Voicefixer", "UniverSE++", "Resemble-Enhance", "VoiceBridge(Ours)"];
+        dnsSamples.forEach(name => {
+          document.write('<div class="audio-container">');
+          dnsMethods.forEach((method, i) => {
+            document.write(`
+              <div class="audio-item">
+                <p${method === 'vb' ? ' class="bold"' : ''}>${dnsLabels[i]}</p>
+                <audio controls src="dns_real_${method}/${name}.wav"></audio>
+                <img class="pdf-image" src="dns_real_${method}/${name}.wav_stft.png">
+              </div>
+            `);
+          });
+          document.write('</div>');
+        });
+      </script>
+    </section>
+
+    <!-- Simulated Section -->
+    <section>
+      <h2>Voicefixer-GSR (Simulated Data)</h2>
+      <script>
+        const simSamples = ["125", "150", "176", "232", "23", "300", "370", "37", "446", "491"];
+        const simMethods = ["input", "vf", "upp", "re", "vb", "gt"];
+        const simLabels = ["Input", "Voicefixer", "UniverSE++", "Resemble-Enhance", "VoiceBridge(Ours)", "Ground Truth"];
+        simSamples.forEach(name => {
+          document.write('<div class="audio-container">');
+          simMethods.forEach((method, i) => {
+            document.write(`
+              <div class="audio-item">
+                <p${method === 'vb' ? ' class="bold"' : ''}>${simLabels[i]}</p>
+                <audio controls src="sim_${method}/${name}_simulated.wav"></audio>
+                <img class="pdf-image" src="sim_${method}/${name}_simulated.wav_stft.png">
+              </div>
+            `);
+          });
+          document.write('</div>');
+        });
+      </script>
+    </section>
+
+  </div>
+</body>
+</html>
